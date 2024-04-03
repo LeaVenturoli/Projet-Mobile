@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/_image_fond">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="260dp"
+        android:padding="20dp"
+        android:background="@drawable/rounded_background">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Connexion"
+            android:textSize="30sp"
+            android:textColor="@android:color/black"
+            android:typeface="serif"/>
+
+        <EditText
+            android:id="@+id/MailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="Mail"
+            android:textColor="@android:color/black"
+            android:typeface="serif"/>
+
+        <EditText
+            android:id="@+id/PasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Mot de passe"
+            android:textColor="@android:color/black"
+            android:typeface="serif"/>
+
+        <Button
+            android:id="@+id/connectBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Connexion"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/transparent"
+            android:typeface="serif"
+            />
+        <TextView
+            android:id="@+id/errorConnectAccountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@android:color/white"
+            android:text="error"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rose"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="© 2023 Booky"
+            android:layout_gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:typeface="serif" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

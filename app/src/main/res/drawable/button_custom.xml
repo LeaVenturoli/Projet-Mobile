@@ -1,0 +1,16 @@
+<!-- button_custom.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#A070A8"/>
+            <corners/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#E4D2E8"/>
+            <corners android:bottomRightRadius="8dp"
+                    android:topRightRadius="8dp"/>
+        </shape>
+    </item>
+</selector>
