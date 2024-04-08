@@ -159,6 +159,7 @@ class QrCode : AppCompatActivity() {
                             putExtra("coverUrl", coverUrl)
                         }
                         startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(
                             this@QrCode,
