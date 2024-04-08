@@ -30,27 +30,27 @@ class Register : AppCompatActivity() {
         buttonSouhait = findViewById(R.id.buttonSouhait)
 
         // Configuration des listeners pour les boutons après la récupération de userId
-        buttonAjouter?.setOnClickListener(View.OnClickListener {
+        buttonAjouter?.setOnClickListener {
             val mainActivity = Intent(this@Register, Scan::class.java)
             startActivity(mainActivity)
-        })
+        }
 
-        buttonBiblio?.setOnClickListener(View.OnClickListener {
+        buttonBiblio?.setOnClickListener {
             val biblioIntent = Intent(this@Register, Biblioperso::class.java)
             userId?.let { biblioIntent.putExtra("user_id", it) } // Utilisation de userId après sa récupération
             startActivity(biblioIntent)
-        })
+        }
 
-        buttonSouhait?.setOnClickListener(View.OnClickListener {
-            val mainActivity = Intent(this@Register, Souhait::class.java)
-            startActivity(mainActivity)
-        })
+        buttonSouhait?.setOnClickListener {
+            val souhaitIntent = Intent(this@Register, Souhait::class.java)
+            userId?.let { souhaitIntent.putExtra("user_id", it) }
+            startActivity(souhaitIntent)
+        }
 
         // Afficher le message de bienvenue avec le prénom de l'utilisateur
         if (userId != null && prenom != null) {
             val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
             welcomeTextView.text = "Bienvenue $prenom"
-
         }
 
         // Ajout du code de débogage
