@@ -49,7 +49,7 @@ class Souhait : AppCompatActivity() {
         Log.d("SouhaitActivity", "Envoi de la demande de récupération des livres depuis l'API pour l'utilisateur $userId")
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.245.1:8080/livres/getSouhait.php"
+        val url = "https://booky-bibliotheque.fr/Api_V1/livres/getSouhait.php"
         val params = HashMap<String, String>()
         params["user_id"] = userId;
 

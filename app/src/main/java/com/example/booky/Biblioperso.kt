@@ -44,7 +44,7 @@ class Biblioperso : AppCompatActivity() {
 
     private fun getLivresFromApi(userId:String) {
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.245.1:8080/livres/get.php"
+        val url = "https://booky-bibliotheque.fr/Api_V1/livres/get.php"
         val params = HashMap<String, String>()
         params["user_id"] = userId;
         val jsonObjectRequest = JsonObjectRequest(

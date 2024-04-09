@@ -75,7 +75,7 @@ class Register : AppCompatActivity() {
     // Méthode pour récupérer le nombre de livres depuis l'API
     private fun getNumberOfBooks(userId: String, callback: (Int) -> Unit) {
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.245.1:8080/livres/getNbr.php"
+        val url = "https://booky-bibliotheque.fr/Api_V1/livres/getNbr.php"
 
         val params = HashMap<String, String>()
         params["user_id"] = userId
