@@ -12,6 +12,7 @@ import androidx.lifecycle.ReportFragment.Companion.reportFragment
 class Scan : AppCompatActivity() {
 
     private lateinit var qrCode: TextView
+    private lateinit var userId: String
 
 
     private val resultLauncher =
@@ -25,6 +26,8 @@ class Scan : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan)
+        
+        userId = intent.getStringExtra("user_id") ?: ""
 
         qrCode = findViewById(R.id.qr_Code)
         initButtonClickListener()
@@ -34,6 +37,7 @@ class Scan : AppCompatActivity() {
         val startScanButton = findViewById<Button>(R.id.lancerScan)
         startScanButton.setOnClickListener {
             val intentQrCode = Intent(this, QrCode::class.java)
+            intentQrCode.putExtra("user_id", userId)
             resultLauncher.launch(intentQrCode)
         }
     }

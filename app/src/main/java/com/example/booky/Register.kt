@@ -40,6 +40,7 @@ class Register : AppCompatActivity() {
         // Configuration des listeners pour les boutons
         buttonAjouter.setOnClickListener {
             val mainActivity = Intent(this@Register, Scan::class.java)
+            mainActivity.putExtra("user_id", userId)
             startActivity(mainActivity)
         }
 

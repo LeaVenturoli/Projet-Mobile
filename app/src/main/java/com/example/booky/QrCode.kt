@@ -33,11 +33,14 @@ class QrCode : AppCompatActivity() {
     private lateinit var cameraSurfaceView: SurfaceView
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
+    private lateinit var userId: String
     private var isScanned: Boolean = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code)
+
+        userId = intent.getStringExtra("user_id") ?: ""
 
         cameraSurfaceView = findViewById(R.id.scan_surface)
     }
@@ -150,14 +153,23 @@ class QrCode : AppCompatActivity() {
                         val bookInfo = docs.optJSONObject(0)
                         val title = bookInfo.optString("title", "Titre inconnu")
                         val author = bookInfo.optString("author_name", "Auteur inconnu")
-                        val edition = bookInfo.optString("edition_key", "Edition inconnue")
+                        val editionArray = bookInfo.optJSONArray("publisher")
+                        val editions = ArrayList<String>()
+                        if (editionArray != null) {
+                            for (i in 0 until editionArray.length()) {
+                                editions.add(editionArray.optString(i))
+                            }
+                        }
+                        if (editions.isEmpty()) editions.add("Editeur inconnu")
+
                         val coverId = bookInfo.optJSONArray("cover_i")?.optInt(0) ?: 0
                         val coverUrl = "https://covers.openlibrary.org/b/id/$coverId-L.jpg"
 
                         val intent = Intent(this@QrCode, BookDetails::class.java).apply {
+                            putExtra("user_id", userId)
                             putExtra("title", title)
                             putExtra("author", author)
-                            putExtra("edition", edition)
+                            putStringArrayListExtra("editions", editions)
                             putExtra("coverUrl", coverUrl)
                         }
                         isScanned = true;
