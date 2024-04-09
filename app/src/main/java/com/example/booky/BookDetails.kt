@@ -35,6 +35,7 @@ class BookDetails : AppCompatActivity() {
         button.setOnClickListener{
             val intent = Intent(this, Scan::class.java)
             startActivity(intent) // Démarrer la nouvelle activité
+            finish()
         }
 
 

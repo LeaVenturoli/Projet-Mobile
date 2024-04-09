@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun connectUser(mail: String, mdp: String) {
-        val url = "http://192.168.245.1:8080/User/login.php"
+        val url = "https://booky-bibliotheque.fr/Api_V1/User/login.php"
         val params = HashMap<String, String>()
         params["MAIL"] = mail
         params["MDP"] = mdp

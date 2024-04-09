@@ -33,6 +33,7 @@ class QrCode : AppCompatActivity() {
     private lateinit var cameraSurfaceView: SurfaceView
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
+    private var isScanned: Boolean = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,9 +86,10 @@ class QrCode : AppCompatActivity() {
             override fun receiveDetections(detections: Detector.Detections<Barcode>) {
                 val barcodes = detections.detectedItems
 
-                if (barcodes.isNotEmpty()) {
+                if (barcodes.isNotEmpty() && !isScanned) {
                     barcodes.forEach { _, value ->
                         if (value.displayValue.isNotEmpty()) {
+                            isScanned = true
                             onQrCodeScanned(value.displayValue)
                         }
                     }
@@ -144,7 +146,7 @@ class QrCode : AppCompatActivity() {
             { response ->
                 try {
                     val docs = response.optJSONArray("docs")
-                    if (docs != null && docs.length() > 0) {
+                    if (docs != null && docs.length() > 0 ){
                         val bookInfo = docs.optJSONObject(0)
                         val title = bookInfo.optString("title", "Titre inconnu")
                         val author = bookInfo.optString("author_name", "Auteur inconnu")
@@ -158,9 +160,11 @@ class QrCode : AppCompatActivity() {
                             putExtra("edition", edition)
                             putExtra("coverUrl", coverUrl)
                         }
+                        isScanned = true;
                         startActivity(intent)
                         finish()
                     } else {
+                        isScanned = false;
                         Toast.makeText(
                             this@QrCode,
                             "Aucune information trouvée pour ce livre.",
@@ -169,6 +173,7 @@ class QrCode : AppCompatActivity() {
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    isScanned = false;
                     Toast.makeText(
                         this@QrCode,
                         "Erreur lors de la recherche du livre.",
