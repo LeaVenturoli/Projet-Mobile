@@ -160,6 +160,7 @@ class QrCode : AppCompatActivity() {
                                 editions.add(editionArray.optString(i))
                             }
                         }
+                        editions.sort()
                         if (editions.isEmpty()) editions.add("Editeur inconnu")
 
                         val coverId = bookInfo.optJSONArray("cover_i")?.optInt(0) ?: 0

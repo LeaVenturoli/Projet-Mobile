@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import android.widget.Toast.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.booky.databinding.ActivityBookDetailsBinding
 import okhttp3.*
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
@@ -24,7 +23,6 @@ class BookDetails : AppCompatActivity() {
     private lateinit var binding: ActivityBookDetailsBinding
     private lateinit var userId: String
 
-
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +31,6 @@ class BookDetails : AppCompatActivity() {
 
         fetchGenres()
         afficherEditions()
-
 
         val titleText = intent.getStringExtra("title")
         var authorText = intent.getStringExtra("author")
@@ -59,15 +56,15 @@ class BookDetails : AppCompatActivity() {
             val genre = binding.genreSpinner.selectedItem.toString()
             val edition = binding.editionSpinner.selectedItem.toString()
             val tome = binding.tome.text.toString()
+            val addToWishlist = binding.wishlistCheckBox.isChecked
 
-            // Ajouter un message de débogage pour vérifier les valeurs récupérées
-
-            // Vérifier si les champs sont remplis
             if (genre?.isNotEmpty() == true && edition?.isNotEmpty() == true) {
-                    sendBookDataToServer(genre, edition, tome.toIntOrNull())
+                sendBookDataToServer(genre, edition, tome.toIntOrNull(), addToWishlist)
+                val addIntent = Intent(this@BookDetails, Register::class.java)
+                addIntent.putExtra("user_id", userId)
+                startActivity(addIntent)
             } else {
-                // Afficher un message d'erreur si un champ est vide
-                Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
+                makeText(this, "Veuillez remplir tous les champs", LENGTH_SHORT).show()
             }
         }
     }
@@ -87,7 +84,7 @@ class BookDetails : AppCompatActivity() {
         OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread{
-                    Toast.makeText(this@BookDetails, "Impossible de récupérer les genres", Toast.LENGTH_SHORT).show()
+                    makeText(this@BookDetails, "Impossible de récupérer les genres", LENGTH_SHORT).show()
                 }
             }
 
@@ -103,11 +100,9 @@ class BookDetails : AppCompatActivity() {
                 }
             }
         })
-
-
     }
 
-    private fun sendBookDataToServer(genre: String, edition: String, tome: Int?) {
+    private fun sendBookDataToServer(genre: String, edition: String, tome: Int?, addToWishlist: Boolean) {
         val url = "https://booky-bibliotheque.fr/Api_V1/livres/post.php"
 
         val client = OkHttpClient()
@@ -119,25 +114,24 @@ class BookDetails : AppCompatActivity() {
             put("AUTEUR", binding.author.text.toString())
             put("DATE_AJOUT", binding.date.text.toString())
             tome?.let { put("TOME", it) }
+            put("SOUHAIT", addToWishlist)
         }
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = json.toString().toRequestBody(mediaType)
-
 
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
             .build()
 
-
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(
+                    makeText(
                         this@BookDetails,
                         "Erreur de connexion au serveur",
-                        Toast.LENGTH_SHORT
+                        LENGTH_SHORT
                     ).show()
                 }
             }
@@ -149,8 +143,6 @@ class BookDetails : AppCompatActivity() {
                     try {
                         val jsonResponse = JSONObject(responseBody)
                         val success = jsonResponse.getBoolean("success")
-
-                        // if it's succes we get the message else we get the error
                         val message = if (success) {
                             jsonResponse.getString("message")
                         } else {
@@ -159,31 +151,28 @@ class BookDetails : AppCompatActivity() {
 
                         Log.d("Response", "Response: $message")
 
-
                         runOnUiThread {
                             if (success) {
-                                Toast.makeText(this@BookDetails, message, Toast.LENGTH_SHORT).show()
+                                makeText(this@BookDetails, message, LENGTH_SHORT).show()
                             } else {
-                                Toast.makeText(this@BookDetails, message, Toast.LENGTH_SHORT).show()
+                                makeText(this@BookDetails, message, LENGTH_SHORT).show()
                             }
                         }
                     } catch (e: JSONException) {
-                        // Handle the JSONException
                         runOnUiThread {
-                            Toast.makeText(
+                            makeText(
                                 this@BookDetails,
                                 "Erreur lors de l'analyse des données: ${e.message}",
-                                Toast.LENGTH_LONG
+                                LENGTH_LONG
                             ).show()
                         }
                     }
                 } else {
-                    // Handle the case where the response body is empty
                     runOnUiThread {
-                        Toast.makeText(
+                        makeText(
                             this@BookDetails,
                             "La réponse du serveur était vide",
-                            Toast.LENGTH_SHORT
+                            LENGTH_SHORT
                         ).show()
                     }
                 }
