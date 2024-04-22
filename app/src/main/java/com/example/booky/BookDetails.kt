@@ -1,8 +1,11 @@
 package com.example.booky
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.*
 import android.widget.Toast.*
@@ -50,6 +53,7 @@ class BookDetails : AppCompatActivity() {
 
         val currentDate = SimpleDateFormat("dd/MM/yyyy").format(Date())
         binding.date.text = currentDate
+
 
         val addButton = findViewById<Button>(R.id.addButton)
         addButton.setOnClickListener {
@@ -178,5 +182,9 @@ class BookDetails : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    companion object {
+        private const val REQUEST_IMAGE_GALLERY = 100
     }
 }

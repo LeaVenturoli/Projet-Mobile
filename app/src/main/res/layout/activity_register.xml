@@ -25,8 +25,7 @@
             android:layout_height="48dp"
             android:ems="10"
             android:hint="Recherche"
-            android:textColor="@android:color/black"
-            android:typeface="serif" />
+            android:textColor="@android:color/black"/>
 
 
         <View
@@ -41,8 +40,7 @@
             android:layout_gravity="center"
             android:text="Bienvenue"
             android:textColor="@android:color/black"
-            android:textSize="25sp"
-            android:typeface="serif" />
+            android:textSize="25sp"/>
 
 
         <View
@@ -57,8 +55,7 @@
             android:layout_gravity="center"
             android:text="Vous avez -- livres"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:typeface="serif" />
+            android:textSize="15sp"/>
 
         <View
             android:id="@+id/view4"
@@ -71,8 +68,7 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:typeface="serif" />
+            android:textSize="15sp"/>
 
 
         <Button
@@ -85,8 +81,7 @@
             android:padding="8dp"
             android:text="Ajouter un livre"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:typeface="serif" />
+            android:textSize="20sp"/>
 
         <View
             android:id="@+id/view5"
@@ -103,8 +98,7 @@
             android:textColor="@android:color/black"
             android:background="@drawable/button_custom"
             android:gravity="center"
-            android:padding="8dp"
-            android:typeface="serif" />
+            android:padding="8dp"/>
 
         <View
             android:id="@+id/view6"
@@ -121,8 +115,7 @@
             android:textColor="@android:color/black"
             android:background="@drawable/button_custom"
             android:gravity="center"
-            android:padding="8dp"
-            android:typeface="serif" />
+            android:padding="8dp"/>
 
 
     </LinearLayout>
@@ -141,8 +134,7 @@
             android:text="© 2023 Booky"
             android:layout_gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:typeface="serif" />
+            android:textSize="15sp"/>
     </LinearLayout>
 
 </RelativeLayout>

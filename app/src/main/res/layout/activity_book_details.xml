@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookDetails">
+    tools:context=".BookDetails"
+    android:background="#6d90a1">>
 
     <Button
         android:id="@+id/backButton"
@@ -15,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:background="@drawable/rose"
         android:onClick="onBackButtonClick" />
 
     <TextView
@@ -110,13 +112,26 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="28dp"
         android:onClick="onAddButtonClick"
         android:text="Ajouter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tome" />
+        android:background="@drawable/rose"
+        app:layout_constraintTop_toBottomOf="@id/date" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addButton" />
+
+
 
     <CheckBox
         android:id="@+id/wishlistCheckBox"
@@ -126,7 +141,8 @@
         android:checked="false"
         android:text="Ajouter à la liste de souhaits"
         app:layout_constraintTop_toBottomOf="@id/tome"
-        tools:layout_editor_absoluteX="101dp" />
+        tools:layout_editor_absoluteX="101dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/date"
