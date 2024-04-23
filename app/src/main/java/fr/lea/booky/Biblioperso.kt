@@ -1,9 +1,16 @@
-package com.example.booky
+package fr.lea.booky
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -13,13 +20,60 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import com.android.volley.toolbox.JsonObjectRequest
+import com.squareup.picasso.Picasso
 import org.json.JSONObject
+
+data class Livre(
+    val nom: String,
+    val auteur: String,
+    val tome: Any, // Peut être Int ou String
+    val imageUrl: String
+)
+
+class LivresAdapter(private val context: Context, private val livresList: List<Livre>) : BaseAdapter() {
+
+    override fun getCount(): Int {
+        return livresList.size
+    }
+
+    override fun getItem(position: Int): Livre {
+        return livresList[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    @SuppressLint("ResourceType")
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(context).inflate(R.drawable.item_livre, parent, false)
+
+        val livre = getItem(position)
+
+        // Récupère les vues à partir du layout de l'élément du livre
+        val nomTextView = view.findViewById<TextView>(R.id.nomTextView)
+        val auteurTextView = view.findViewById<TextView>(R.id.auteurTextView)
+        val tomeTextView = view.findViewById<TextView>(R.id.tomeTextView)
+        val imageView = view.findViewById<ImageView>(R.id.imageView)
+
+        // Définis les valeurs des vues avec les données du livre
+        nomTextView.text = livre.nom
+        auteurTextView.text = livre.auteur
+        tomeTextView.text = livre.tome.toString() // Conversion en chaîne car tome peut être une chaîne
+
+        // Charge l'image à partir de l'URL en utilisant une bibliothèque comme Picasso
+        Picasso.get().load(livre.imageUrl).into(imageView)
+
+        return view
+    }
+}
 class Biblioperso : AppCompatActivity() {
     private lateinit var listViewLivres: ListView
-    private lateinit var livresList: ArrayList<String>
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var livresList: ArrayList<Livre>
+    private lateinit var adapter: LivresAdapter
     private lateinit var userId: String
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_biblioperso)
@@ -27,19 +81,29 @@ class Biblioperso : AppCompatActivity() {
         userId = intent.getStringExtra("user_id").toString()
 
         if (userId == null) {
-
+            // Gère le cas où userId est null si nécessaire
         }
+
         livresList = ArrayList() // Initialisation de livresList
         listViewLivres = findViewById(R.id.listViewLivres)
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, livresList)
+
+        // Utilise la propriété de classe adapter au lieu de redéclarer une variable locale
+        adapter = LivresAdapter(this, livresList)
         listViewLivres.adapter = adapter
 
         // Correction de l'initialisation de userIdTextView
         val userIdTextView = findViewById<TextView>(R.id.userIdTextView)
         userIdTextView.text = "ID de l'utilisateur : $userId"
 
-        getLivresFromApi(userId)
-
+        try {
+            getLivresFromApi(userId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            Log.e("Biblioperso", "Erreur JSON: ${e.message}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Biblioperso", "Erreur: ${e.message}")
+        }
     }
 
     private fun getLivresFromApi(userId:String) {
@@ -66,9 +130,8 @@ class Biblioperso : AppCompatActivity() {
                         } else {
                             "Tome inconnu"
                         }
-                        livresList.add("$nomLivre - $auteur - ${if (tome is Int) "Tome $tome" else tome}")
-
-
+                        val imageUrl = "https://booky-bibliotheque.fr/images-livres/" + livre.getString("IMAGE")
+                        livresList.add(Livre(nomLivre, auteur, tome, imageUrl)) // Ajoute le livre à la liste
                     }
                     adapter.notifyDataSetChanged()
 
@@ -84,4 +147,3 @@ class Biblioperso : AppCompatActivity() {
         queue.add(jsonObjectRequest)
     }
 }
-

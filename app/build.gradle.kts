@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.booky"
+    namespace = "fr.lea.booky"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.booky"
+        applicationId = "fr.lea.booky"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -53,4 +53,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.squareup.moshi:moshi:1.12.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.12.0")
+    implementation ("com.squareup.picasso:picasso:2.8")
 }

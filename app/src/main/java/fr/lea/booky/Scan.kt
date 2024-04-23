@@ -1,4 +1,4 @@
-package com.example.booky
+package fr.lea.booky
 
 import android.app.Activity
 import android.content.Intent

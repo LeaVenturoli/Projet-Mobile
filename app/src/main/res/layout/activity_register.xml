@@ -125,6 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/rose"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical"
         android:padding="5dp">
 
