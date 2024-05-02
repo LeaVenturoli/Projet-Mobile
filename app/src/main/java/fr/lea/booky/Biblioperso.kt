@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -56,13 +59,13 @@ class LivresAdapter(private val context: Context, private val livresList: List<L
         val tomeTextView = view.findViewById<TextView>(R.id.tomeTextView)
         val imageView = view.findViewById<ImageView>(R.id.imageView)
 
-        // Définis les valeurs des vues avec les données du livre
+
         nomTextView.text = livre.nom
         auteurTextView.text = livre.auteur
-        tomeTextView.text = livre.tome.toString() // Conversion en chaîne car tome peut être une chaîne
+        tomeTextView.text = livre.tome.toString()
 
-        // Charge l'image à partir de l'URL en utilisant une bibliothèque comme Picasso
-        Picasso.get().load(livre.imageUrl).into(imageView)
+        Picasso.get().load(livre.imageUrl).resize(200, 250).centerCrop().into(imageView)
+
 
         return view
     }
@@ -72,11 +75,15 @@ class Biblioperso : AppCompatActivity() {
     private lateinit var livresList: ArrayList<Livre>
     private lateinit var adapter: LivresAdapter
     private lateinit var userId: String
+    private lateinit var rechercheEditText: EditText
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_biblioperso)
+
+        rechercheEditText = findViewById(R.id.recherche)
+
 
         userId = intent.getStringExtra("user_id").toString()
 
@@ -91,12 +98,24 @@ class Biblioperso : AppCompatActivity() {
         adapter = LivresAdapter(this, livresList)
         listViewLivres.adapter = adapter
 
-        // Correction de l'initialisation de userIdTextView
-        val userIdTextView = findViewById<TextView>(R.id.userIdTextView)
-        userIdTextView.text = "ID de l'utilisateur : $userId"
 
+        rechercheEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed for this implementation
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not needed for this implementation
+                val query = s.toString()
+                getLivresFromApi(userId, query)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // pass
+            }
+        })
         try {
-            getLivresFromApi(userId)
+            getLivresFromApi(userId,null);
         } catch (e: JSONException) {
             e.printStackTrace()
             Log.e("Biblioperso", "Erreur JSON: ${e.message}")
@@ -104,13 +123,17 @@ class Biblioperso : AppCompatActivity() {
             e.printStackTrace()
             Log.e("Biblioperso", "Erreur: ${e.message}")
         }
+
+
     }
 
-    private fun getLivresFromApi(userId:String) {
+    private fun getLivresFromApi(userId:String, query:String?) {
+        livresList.clear()
         val queue = Volley.newRequestQueue(this)
         val url = "https://booky-bibliotheque.fr/Api_V1/livres/get.php"
         val params = HashMap<String, String>()
         params["user_id"] = userId;
+        params["query"] = query ?: "" // Use query if not null, otherwise use ""
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, (params as Map<*, *>?)?.let { JSONObject(it) },
             { response ->

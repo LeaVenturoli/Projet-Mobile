@@ -35,12 +35,6 @@
             android:text="Ma bibliothèque"
             android:textColor="@android:color/black"
             android:textSize="25sp" />
-        <TextView
-            android:id="@+id/userIdTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
 
 
         <View

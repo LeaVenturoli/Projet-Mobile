@@ -37,9 +37,6 @@ class Souhait : AppCompatActivity() {
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, livresList)
         listViewLivres.adapter = adapter
 
-        // Affichage de l'ID de l'utilisateur dans le TextView
-        val userIdTextView = findViewById<TextView>(R.id.userIdTextView)
-        userIdTextView.text = "ID de l'utilisateur : $userId"
 
         // Récupération des livres souhaités de l'utilisateur depuis l'API
         getLivresFromApi(userId)

@@ -40,7 +40,6 @@
 
     </LinearLayout>
 
-    <!-- Déplacement du ListView ici -->
     <ListView
         android:id="@+id/listViewLivres"
         android:layout_width="wrap_content"

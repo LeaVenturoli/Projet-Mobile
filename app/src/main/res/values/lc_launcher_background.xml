@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="placeholder_image_background">#27556c</color>
+    <color name="lc_launcher_background">#27556C</color>
 </resources>
